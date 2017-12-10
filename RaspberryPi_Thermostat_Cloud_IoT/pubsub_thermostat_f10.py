@@ -65,6 +65,12 @@ class Device(object):
   def update_sensor_data(self):
     self.temperature = int(sensor.read_temperature())
 
+#  def read_temperature_f(self):
+    # Wrapper to get temp in F
+#    celsius = self.read_temperature()
+#    temp = celsius * 1.8 + 32
+#    return temp
+
   def wait_for_connection(self, timeout):
     """Wait for the device to become connected."""
     total_time = 0
@@ -210,6 +216,8 @@ def main():
 
     # Report the device's temperature to the server, by serializing it as a JSON
     # string.
+#    payload = json.dumps({'temperature': device.temperature})
+#    time = datetime.utcnow()
 
 #  utc to pst conversion 
     date_format='%m/%d/%Y %H:%M:%S %Z'
@@ -218,8 +226,11 @@ def main():
 
     now = datetime.datetime.now()
     temp = float(device.temperature) * 1.8 + 32
-    data = {'temp' : temp, 'time' : date.strftime(date_format)}
+#    data = {'temp' : temp, 'time' : now.strftime("%Y-%m-%d %H:%M")}
+    data = {'temperature' : temp, 'timestamp' : date.strftime(date_format)}
    
+#    payload = json.dumps({'temperature': temp})
+#    payload2 = json.dumps({'time': now.strftime("%Y-%m-%d %H:%M")})
     payload3 = json.dumps(data)
     print 'Publishing payload', payload3
 # turn on greenlight to confirm transmitting data
