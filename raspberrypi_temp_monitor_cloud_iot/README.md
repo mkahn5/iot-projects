@@ -6,7 +6,7 @@ When the script is sucessfully publishing to Cloud IoT and PubSub, GPIO pin 21 w
 
 To run:
 ```
-python pubsub_thermostat_f8.py --project_id=<your gcp project> --registry_id=<your gcp cloud iot registryid> --device_id=<device name> --private_key_file=rsa_private.pem --algorithm=RS256
+python temp_monitor.py --project_id=<your gcp project> --registry_id=<your gcp cloud iot registry id> --device_id=<device name> --private_key_file=rsa_private.pem --algorithm=RS256
 ```
 
 Dataflow pipeline included to parse data from PubSub to Datastore and BigQuery.
