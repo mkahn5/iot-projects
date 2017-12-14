@@ -210,8 +210,24 @@ def main():
   # Subscribe to the config topic.
   client.subscribe(mqtt_config_topic, qos=1)
 
+  jwt_iat = datetime.datetime.utcnow()
+  jwt_exp_mins = 20
+    
   # Update and publish temperature readings at a rate of one per second.
   for _ in range(args.num_messages):
+    seconds_since_issue = (datetime.datetime.utcnow() - jwt_iat).seconds
+    if seconds_since_issue > 60 * jwt_exp_mins:
+        print('Refreshing token after {}s').format(seconds_since_issue)
+        client.loop_stop()
+        jwt_iat = datetime.datetime.utcnow()
+        client = get_client(
+            args.project_id, args.cloud_region,
+            args.registry_id, args.device_id, args.private_key_file,
+            args.algorithm, args.ca_certs, args.mqtt_bridge_hostname,
+            args.mqtt_bridge_port)        
+        client.loop_start()
+        client.subscribe(mqtt_config_topic, qos=1)
+
     device.update_sensor_data()
 
     # Report the device's temperature to the server, by serializing it as a JSON
