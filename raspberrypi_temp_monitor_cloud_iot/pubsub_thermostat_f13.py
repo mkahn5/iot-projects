@@ -193,7 +193,7 @@ def get_client(
      # Register message callbacks. https://eclipse.org/paho/clients/python/docs/
      # describes additional callbacks that Paho supports. In this example, the
      # callbacks just print to standard out.
-     client.on_connect = on_connect
+#     client.on_connect = on_connect
      client.on_publish = on_publish
      client.on_disconnect = on_disconnect
      client.on_message = on_message
